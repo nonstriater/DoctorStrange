@@ -6,8 +6,6 @@
 *.dylib
 
 .DS_Store
-gvite
-!gvite/
 
 # vscode
 .vscode
@@ -30,6 +28,7 @@ testdata/ledger_file
 
 # Build files
 build/
+logs/
 
 # config files for test
 node_config.json
