@@ -16,7 +16,8 @@ func main()  {
 
 	initRedis()
 
-	startMetrics()
+	//开启性能监测
+	go startMetrics()
 
 	engine.DefaultManager().Start()
 
