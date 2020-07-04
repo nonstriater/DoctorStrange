@@ -31,9 +31,9 @@ func (m *EngineManager)AddEngine (symbol string, price float32) errorcode.ErrorC
 		return errorcode.ErrorCodeEngineExist
 	}
 
-	e := New(symbol)
+	e := New(symbol,price)
 	m.engines[symbol] = e
-	e.Start(price)
+	e.Start()
 
 	return errorcode.OK
 }

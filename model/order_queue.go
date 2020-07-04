@@ -18,18 +18,18 @@ func New(direction uint8)  {
 
 }
 
-func AddOrder(order Order)  {
+func (oq *OrderQueue)AddOrder(order Order)  {
 
 }
 
-func RemoveOrder(order Order)  {
+func (oq *OrderQueue)RemoveOrder(order Order)  {
 	
 }
 
-func GetHeaderOrder()  {
-	
+func (oq *OrderQueue)GetHeaderOrder() *Order {
+	return nil
 }
 
-func PopHeaderOrder()  {
-	
+func (oq *OrderQueue)PopHeaderOrder()  *Order{
+	return nil
 }

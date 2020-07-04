@@ -1,6 +1,7 @@
 package model
 
 import (
+	"DoctorStrange/enum"
 	"time"
 )
 
@@ -16,9 +17,36 @@ type OrderBook struct {
 }
 
 func (ob *OrderBook)AddOrder (o Order)  {
-
+	switch o.Side {
+	case enum.OrderSideSell:
+		ob.SellOrderQueue.AddOrder(o)
+	case enum.OrderSideBuy:
+		ob.BuyOrderQueue.AddOrder(o)
+	}
 }
 
 func (ob *OrderBook)CancelOrder (o Order)  {
-
+	switch o.Side {
+	case enum.OrderSideSell:
+		ob.SellOrderQueue.RemoveOrder(o)
+	case enum.OrderSideBuy:
+		ob.BuyOrderQueue.RemoveOrder(o)
+	}
 }
+
+func (ob *OrderBook)GetHeaderBuyOrder()  *Order{
+	return ob.BuyOrderQueue.GetHeaderOrder()
+}
+
+func (ob *OrderBook)GetHeaderSellOrder()  *Order{
+	return ob.SellOrderQueue.GetHeaderOrder()
+}
+
+func (ob *OrderBook)RemoveHeaderBuyOrder() *Order{
+	return ob.BuyOrderQueue.PopHeaderOrder()
+}
+
+func (ob *OrderBook)RemoveHeaderSellOrder() *Order{
+	return ob.SellOrderQueue.PopHeaderOrder()
+}
+
