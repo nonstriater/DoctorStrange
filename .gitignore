@@ -1,0 +1,44 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+.DS_Store
+gvite
+!gvite/
+
+# vscode
+.vscode
+
+# Test binary, build with `go test -c`
+*.test
+testdata/trie
+testdata/vm_context
+testdata/ledger
+testdata/ledger_file
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Leveldb database files for test, put it here temporarily
+
+
+# idea files
+.idea/
+
+# Build files
+build/
+
+# config files for test
+node_config.json
+node_config_*.json
+!/node_config.json
+
+genesis_*.json
+
+**/p2p/**/simular/**
+!**/p2p/**/simular/**/*.go
+**/net/**/simular/**
+!**/net/**/simular/**/*.go

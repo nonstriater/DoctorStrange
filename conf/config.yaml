@@ -1,0 +1,8 @@
+server:
+    port: 8889
+log:
+    fileDir:logs
+redis:
+    addr:127.0.0.1:6379
+
+
