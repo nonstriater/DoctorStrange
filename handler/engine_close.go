@@ -9,7 +9,8 @@ import (
 
 func EngineClose(w http.ResponseWriter, r *http.Request, params httprouter.Params)  {
 
-	symbol := ""
+	u := r.URL.Query()
+	symbol := u.Get("symbol")
 	engine.DefaultManager().RemoveEngine(symbol)
 
 	fmt.Fprint(w, "engine close")

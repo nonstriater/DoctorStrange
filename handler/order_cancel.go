@@ -7,23 +7,31 @@ import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 func OrderCancel(w http.ResponseWriter, r *http.Request, params httprouter.Params)  {
-	fmt.Fprint(w, "order cancel\n")
 
-	symbol := ""
-	side := enum.OrderSideBuy
+	v := r.URL.Query()
+	oid := v.Get("orderId")
+	orderId,_ := strconv.ParseUint(oid,10,64)
+
+	symbol := v.Get("symbol")
+	side := v.Get("side")
+	s, _  := strconv.ParseInt(side, 10, 32 )
 	order := model.Order{
+		ID:			uint(orderId),
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
-		Action: 	enum.OrderActionCreate,
+		Action: 	enum.OrderActionCancel,
 		Type:       enum.OrderTypeLimit,
-		Side:      	side,
+		Side:      	enum.OrderSide(s),
 		Symbol:    	symbol,
 	}
 
 	e, _ := engine.DefaultManager().Engine(symbol)
 	e.CancelOrder(order)
+
+	fmt.Fprint(w, "order cancel\n")
 }

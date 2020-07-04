@@ -7,28 +7,35 @@ import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 func OrderCreate(w http.ResponseWriter, r *http.Request, params httprouter.Params)  {
-	fmt.Fprint(w, "order add\n")
 
-	side := enum.OrderSideBuy
-	symbol := ""
-	price := float32(1)
-	amount := float32(1)
+	v := r.URL.Query()
+	symbol := v.Get("symbol")
+	side := v.Get("side")
+	price := v.Get("price")
+	amount := v.Get("amount")
+
+	s, _  := strconv.ParseInt(side, 10, 32 )
+	p, _ := strconv.ParseFloat(price, 32)
+	a, _ := strconv.ParseFloat(amount, 32)
+
 	order := model.Order{
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
-		Action: enum.OrderActionCreate,
+		Action:    enum.OrderActionCreate,
 		Type:      enum.OrderTypeLimit,
-		Side:      side,
+		Side:      enum.OrderSide(s),
 		Symbol:    symbol,
-		Price:     price,
-		Amount:    amount,
+		Price:     float32(p),
+		Amount:    float32(a),
 	}
 
 	e, _ := engine.DefaultManager().Engine(symbol)
 	e.AddOrder(order)
 
+	fmt.Fprint(w, "order add\n")
 }
