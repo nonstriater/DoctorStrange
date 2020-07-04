@@ -22,7 +22,10 @@ func New(symbol string, price float32)(e *engine)  {
 	return &engine{
 		symbol:    symbol,
 		price:		price,
-		orderBook: &model.OrderBook{},
+		orderBook: &model.OrderBook{
+			BuyOrderQueue:model.NewQueue(model.QueueDirectionBuy),
+			SellOrderQueue:model.NewQueue(model.QueueDirectionSell),
+		},
 		orderChan: make(chan model.Order),
 		stop: 		make(chan bool),
 	}
