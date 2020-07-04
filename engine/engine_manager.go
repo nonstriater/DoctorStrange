@@ -1,15 +1,25 @@
 package engine
 
-import "DoctorStrange/errorcode"
+import (
+	"DoctorStrange/errorcode"
+	"sync"
+)
 
 type EngineManager struct {
 	engines map[string]*engine
 }
 
+var defaultManager *EngineManager
+var once sync.Once
+
 func DefaultManager()(*EngineManager){
-	return &EngineManager{
-		engines:make(map[string]*engine,100),
-	}
+	once.Do(func() {
+		defaultManager =  &EngineManager{
+			engines:make(map[string]*engine,100),
+		}
+	})
+
+	return defaultManager
 }
 
 func (m *EngineManager)Start ()  {
