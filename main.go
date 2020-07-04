@@ -15,9 +15,11 @@ func main()  {
 
 	initRedis()
 
-	startRPC()
+	startMetrics()
 
 	engine.DefaultManager().Start()
+
+	startServer()
 }
 
 func initViper()  {
@@ -32,7 +34,11 @@ func initRedis()  {
 
 }
 
-func startRPC() {
+func startMetrics()  {
+
+}
+
+func startServer() {
 
 	router := httprouter.New()
 

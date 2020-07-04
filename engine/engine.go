@@ -9,7 +9,7 @@ type engine struct {
 	symbol 	string	 //交易对
 	orderBook *model.OrderBook
 	orderChan chan model.Order
-	stop chan bool //结束信号
+	stop chan bool //引擎结束信号
 }
 
 func New(symbol string)(e *engine)  {
@@ -45,10 +45,6 @@ func (e *engine) Stop()  {
 	saveOrderBook()
 
 	e.stop <- true
-}
-
-func (e *engine) startMetrics()  {
-
 }
 
 func (e *engine) AddOrder(o model.Order)  {
@@ -94,10 +90,12 @@ func (e *engine)orderMatching() {
 
 }
 
+//引擎启动时，从磁盘恢复挂单账本
 func recoverOrderBook()  {
 
 }
 
+//引擎关闭时，持久化 order book
 func saveOrderBook() {
 
 }
