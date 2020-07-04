@@ -1,6 +1,9 @@
 package engine
 
-import "DoctorStrange/model"
+import (
+	"DoctorStrange/enum"
+	"DoctorStrange/model"
+)
 
 type engine struct {
 	symbol 	string	 //交易对
@@ -59,17 +62,19 @@ func (e *engine) CancelOrder(o model.Order)  {
 }
 
 func (e *engine)run(price float32) {
-
 	for  {
-
 		select {
 		case o := <- e.orderChan:
-			//等待新的买卖单加入orderbook
-
+			//等待新的买卖单加入 orderbook
+			switch o.Action {
+			case enum.OrderActionCreate:
+				e.dealCreateOrder(o)
+			case enum.OrderActionCancel:
+				e.dealCancelOrder(o)
+			}
 		case <- e.stop:
 			break
 		}
-
 
 	}
 }
@@ -83,6 +88,7 @@ func (e *engine)dealCancelOrder(o model.Order)  {
 	e.orderBook.CancelOrder(o)
 }
 
+//匹配引擎策略实现
 func (e *engine)orderMatching() {
 
 

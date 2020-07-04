@@ -11,11 +11,18 @@ const (
 
 const (
 	OrderSideBuy OrderSide = 1
-	OrderSideSell OrderAction = 2
+	OrderSideSell OrderSide = 2
 )
 
 const (
 	OrderTypeLimit OrderType = 1
-	OrderTypeMarket OrderAction = 2
+	OrderTypeMarket OrderType = 2
 )
 
+func OrderSideWithInt(i int32) OrderSide {
+	if i == 1 {
+		return OrderSideBuy
+	}
+
+	return OrderSideSell
+}
