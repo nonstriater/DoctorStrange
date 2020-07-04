@@ -3,6 +3,7 @@ package main
 import (
 	"DoctorStrange/engine"
 	"DoctorStrange/handler"
+	"DoctorStrange/logger"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -27,7 +28,8 @@ func initViper()  {
 }
 
 func initLog()  {
-
+	logger.InitCustomLog("./logs/", "com.doctorstrange", 2)
+	logger.Info("init logger")
 }
 
 func initRedis()  {
