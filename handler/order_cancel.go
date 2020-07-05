@@ -21,7 +21,7 @@ func OrderCancel(w http.ResponseWriter, r *http.Request, params httprouter.Param
 	side := v.Get("side")
 	s, _  := strconv.ParseInt(side, 10, 32 )
 	order := model.Order{
-		ID:			uint(orderId),
+		ID:			uint64(orderId),
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
 		Action: 	enum.OrderActionCancel,
