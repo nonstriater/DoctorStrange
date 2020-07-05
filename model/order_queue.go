@@ -179,8 +179,8 @@ func orderAt(orders *sll.List, i int, j int) *Order{
 	lii,_ := li.(*sll.List)
 
 	obj,_ := lii.Get(j)
-	order,_ := obj.(Order)
-	return &order
+	order,_ := obj.(*Order)
+	return order
 }
 
 
