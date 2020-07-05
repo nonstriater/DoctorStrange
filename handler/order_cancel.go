@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"DoctorStrange/engine"
 	"DoctorStrange/enum"
 	"DoctorStrange/model"
+	"DoctorStrange/process"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
@@ -30,6 +30,7 @@ func OrderCancel(w http.ResponseWriter, r *http.Request, params httprouter.Param
 		Symbol:    	symbol,
 	}
 
+	process.Dispatch(order)
 
 	fmt.Fprint(w, "order cancel\n")
 }

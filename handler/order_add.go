@@ -2,6 +2,7 @@ package handler
 
 import (
 	"DoctorStrange/enum"
+	"DoctorStrange/errorcode"
 	"DoctorStrange/model"
 	"DoctorStrange/process"
 	"fmt"
@@ -13,8 +14,15 @@ import (
 
 func OrderCreate(w http.ResponseWriter, r *http.Request, params httprouter.Params)  {
 
+	w.Header().Set("Content-Type", "application/json")
+
 	v := r.URL.Query()
 	symbol := v.Get("symbol")
+	if len(symbol) == 0 {
+		w.Write(errorcode.ErrorCodeParamInvalidSymbol.ToJson())
+		return
+	}
+
 	side := v.Get("side")
 	price := v.Get("price")
 	amount := v.Get("amount")

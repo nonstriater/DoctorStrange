@@ -10,6 +10,7 @@ type engine struct {
 	symbol 		string	 //交易对
 	price   	float32  //最新实时成交价
 	orderBook 	*model.OrderBook
+
 	orderChan 	chan model.Order
 	stop 		chan bool //引擎结束信号
 }
@@ -26,7 +27,7 @@ func New(symbol string, price float32)(e *engine)  {
 			BuyOrderQueue:model.NewQueue(model.QueueDirectionBuy),
 			SellOrderQueue:model.NewQueue(model.QueueDirectionSell),
 		},
-		orderChan: make(chan model.Order),
+		orderChan: 	make(chan model.Order),
 		stop: 		make(chan bool),
 	}
 }
@@ -50,6 +51,7 @@ func (e *engine) Stop()  {
 	//将当前的委托账本持久化，确保数据不丢失
 	saveOrderBook()
 
+	close(e.orderChan)
 	e.stop <- true
 }
 
