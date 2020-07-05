@@ -30,8 +30,6 @@ func OrderCancel(w http.ResponseWriter, r *http.Request, params httprouter.Param
 		Symbol:    	symbol,
 	}
 
-	e, _ := engine.DefaultManager().Engine(symbol)
-	e.CancelOrder(order)
 
 	fmt.Fprint(w, "order cancel\n")
 }

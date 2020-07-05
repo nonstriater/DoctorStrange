@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"DoctorStrange/engine"
 	"DoctorStrange/enum"
 	"DoctorStrange/model"
+	"DoctorStrange/process"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
@@ -34,8 +34,9 @@ func OrderCreate(w http.ResponseWriter, r *http.Request, params httprouter.Param
 		Amount:    float32(a),
 	}
 
-	e, _ := engine.DefaultManager().Engine(symbol)
-	e.AddOrder(order)
+	//sava order
+
+	process.Dispatch(order)
 
 	fmt.Fprint(w, "order add\n")
 }
