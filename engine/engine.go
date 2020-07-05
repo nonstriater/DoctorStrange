@@ -4,6 +4,7 @@ import (
 	"DoctorStrange/enum"
 	"DoctorStrange/logger"
 	"DoctorStrange/model"
+	"fmt"
 )
 
 type engine struct {
@@ -102,19 +103,19 @@ func (e *engine)dealCancelOrder(o model.Order)  {
 func (e *engine)buyOrderMatching(o model.Order) {
 
 LOOP:
-	oldPrice := e.price
 	s := e.orderBook.GetHeaderSellOrder()
-	if s == nil {
+	if s == nil {//无卖单
 		e.orderBook.AddOrder(o)
 		return;
 	}
 
-	if o.Price < s.Price {
+	if o.Price < s.Price {//比卖单价低
 		e.orderBook.AddOrder(o)
 		return;
 	}
 
 	//new price
+	oldPrice := e.price
 	newPrice := newPrice(o.Price, s.Price, oldPrice)
 	e.price = newPrice
 
@@ -131,7 +132,7 @@ LOOP:
 	}
 
 	if o.Amount > s.Amount {
-		createTrade(o.ID,s.ID, oldPrice, newPrice, o.Amount)
+		createTrade(o.ID,s.ID, oldPrice, newPrice, s.Amount)
 		e.orderBook.RemoveHeaderSellOrder()
 		o.Amount -= s.Amount
 		goto LOOP
@@ -143,7 +144,6 @@ LOOP:
 func (e *engine)sellOrderMatching(o model.Order) {
 
 LOOP:
-	oldPrice := e.price
 	b := e.orderBook.GetHeaderBuyOrder()
 	if b == nil {
 		e.orderBook.AddOrder(o)
@@ -155,6 +155,7 @@ LOOP:
 		return;
 	}
 
+	oldPrice := e.price
 	//new price
 	newPrice := newPrice(b.Price, o.Price, oldPrice)
 	e.price = newPrice
@@ -202,6 +203,8 @@ func newPrice(buyPrice float32, sellPrice float32, oldPrice float32)  float32{
 
 //创建一条成交记录
 func createTrade(buyOrderId uint64, sellOrderId uint64, oldPrice float32,  newPrice float32, amount float32 ) {
+	fmt.Printf("new trade:buyOrderId=%d,sellOrderId=%d,oldPrice=%f,newPrice=%f,amount=%f\n",
+		buyOrderId,sellOrderId,oldPrice,newPrice,amount)
 	logger.Info("new trade:buyOrderId=%d,sellOrderId=%d,oldPrice=%f,newPrice=%f,amount=%f",
 		buyOrderId,sellOrderId,oldPrice,newPrice,amount)
 
