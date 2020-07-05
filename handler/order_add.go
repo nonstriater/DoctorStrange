@@ -5,7 +5,6 @@ import (
 	"DoctorStrange/errorcode"
 	"DoctorStrange/model"
 	"DoctorStrange/process"
-	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"strconv"
@@ -24,8 +23,22 @@ func OrderCreate(w http.ResponseWriter, r *http.Request, params httprouter.Param
 	}
 
 	side := v.Get("side")
+	if len(side) == 0 {
+		w.Write(errorcode.ErrorCodeParamInvalidSide.ToJson())
+		return
+	}
+
 	price := v.Get("price")
+	if len(price) == 0 {
+		w.Write(errorcode.ErrorCodeParamInvalidPrice.ToJson())
+		return
+	}
+
 	amount := v.Get("amount")
+	if len(amount) == 0 {
+		w.Write(errorcode.ErrorCodeParamInvalidAmount.ToJson())
+		return
+	}
 
 	s, _  := strconv.ParseInt(side, 10, 32 )
 	p, _ := strconv.ParseFloat(price, 32)
@@ -46,5 +59,5 @@ func OrderCreate(w http.ResponseWriter, r *http.Request, params httprouter.Param
 
 	process.Dispatch(order)
 
-	fmt.Fprint(w, "order add\n")
+	w.Write(errorcode.OK.ToJson())
 }
