@@ -73,7 +73,7 @@ func (oq *OrderQueue)GetHeaderOrder() *Order {
 	}
 
 	order := orderAt(oq.Orders, 0, 0)
-	return &order
+	return order
 }
 
 func (oq *OrderQueue)PopHeaderOrder()  *Order{
@@ -174,13 +174,13 @@ func getPriceIndexAtBuyQueue(orders *sll.List, price float32) (int, bool){
 	return 0,false
 }
 
-func orderAt(orders *sll.List, i int, j int) Order{
+func orderAt(orders *sll.List, i int, j int) *Order{
 	li,_ := orders.Get(i)
 	lii,_ := li.(*sll.List)
 
 	obj,_ := lii.Get(j)
 	order,_ := obj.(Order)
-	return order
+	return &order
 }
 
 
