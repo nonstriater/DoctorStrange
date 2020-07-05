@@ -29,7 +29,7 @@ func NewQueue(direction QueueDirection) *OrderQueue {
 	return nil
 }
 
-func (oq *OrderQueue)AddOrder(order Order)  {
+func (oq *OrderQueue)AddOrder(order *Order)  {
 	price := order.Price
 	index,exist := oq.getPriceIndex(price)
 	if exist == false{

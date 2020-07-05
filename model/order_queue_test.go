@@ -3,6 +3,7 @@ package model
 import (
 	"DoctorStrange/enum"
 	"fmt"
+	sll "github.com/emirpasic/gods/lists/singlylinkedlist"
 	"testing"
 	"time"
 )
@@ -11,7 +12,7 @@ func TestOrderQueue_AddOrder_buy(t *testing.T) {
 
 	//买盘
 	oq := NewQueue(QueueDirectionBuy)
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -23,7 +24,7 @@ func TestOrderQueue_AddOrder_buy(t *testing.T) {
 		Amount:    1,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -35,7 +36,7 @@ func TestOrderQueue_AddOrder_buy(t *testing.T) {
 		Amount:    2,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -47,7 +48,7 @@ func TestOrderQueue_AddOrder_buy(t *testing.T) {
 		Amount:    3,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -59,7 +60,7 @@ func TestOrderQueue_AddOrder_buy(t *testing.T) {
 		Amount:    3,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -86,7 +87,7 @@ func TestOrderQueue_AddOrder_sell(t *testing.T) {
 
 	//买盘
 	oq := NewQueue(QueueDirectionSell)
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -98,7 +99,7 @@ func TestOrderQueue_AddOrder_sell(t *testing.T) {
 		Amount:    1,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -110,7 +111,7 @@ func TestOrderQueue_AddOrder_sell(t *testing.T) {
 		Amount:    2,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -122,7 +123,7 @@ func TestOrderQueue_AddOrder_sell(t *testing.T) {
 		Amount:    3,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -134,7 +135,7 @@ func TestOrderQueue_AddOrder_sell(t *testing.T) {
 		Amount:    3,
 	})
 
-	oq.AddOrder(Order{
+	oq.AddOrder(&Order{
 		ID:        0,
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
@@ -157,5 +158,41 @@ func TestOrderQueue_AddOrder_sell(t *testing.T) {
 	fmt.Printf("%s\n", oq.Orders.String())
 }
 
+func Test_orderAt(t *testing.T){
+	//买盘
+	oq := NewQueue(QueueDirectionBuy)
+	oq.AddOrder(&Order{
+		ID:        0,
+		CreatedAt: time.Time{},
+		UpdatedAt: time.Time{},
+		Action:    enum.OrderActionCreate,
+		Type:      enum.OrderTypeLimit,
+		Side:      enum.OrderSideBuy,
+		Symbol:    "btc/usdt",
+		Price:     100,
+		Amount:    1,
+	})
 
+	oq.AddOrder(&Order{
+		ID:        0,
+		CreatedAt: time.Time{},
+		UpdatedAt: time.Time{},
+		Action:    enum.OrderActionCreate,
+		Type:      enum.OrderTypeLimit,
+		Side:      enum.OrderSideBuy,
+		Symbol:    "btc/usdt",
+		Price:     102,
+		Amount:    2,
+	})
+
+	orders := oq.Orders
+
+	li,_ := orders.Get(0)
+	lii,_ := li.(*sll.List)
+
+	obj,_ := lii.Get(0)
+	order,_ := obj.(*Order)
+
+	order.Amount = 50
+}
 

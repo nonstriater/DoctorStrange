@@ -15,9 +15,9 @@ type OrderBook struct {
 func (ob *OrderBook)AddOrder (o Order)  {
 	switch o.Side {
 	case enum.OrderSideSell:
-		ob.SellOrderQueue.AddOrder(o)
+		ob.SellOrderQueue.AddOrder(&o)
 	case enum.OrderSideBuy:
-		ob.BuyOrderQueue.AddOrder(o)
+		ob.BuyOrderQueue.AddOrder(&o)
 	}
 }
 
