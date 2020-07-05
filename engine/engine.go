@@ -104,6 +104,11 @@ func (e *engine)buyOrderMatching(o model.Order) {
 LOOP:
 	oldPrice := e.price
 	s := e.orderBook.GetHeaderSellOrder()
+	if s == nil {
+		e.orderBook.AddOrder(o)
+		return;
+	}
+
 	if o.Price < s.Price {
 		e.orderBook.AddOrder(o)
 		return;
@@ -140,6 +145,11 @@ func (e *engine)sellOrderMatching(o model.Order) {
 LOOP:
 	oldPrice := e.price
 	b := e.orderBook.GetHeaderBuyOrder()
+	if b == nil {
+		e.orderBook.AddOrder(o)
+		return;
+	}
+
 	if b.Price < o.Price {
 		e.orderBook.AddOrder(o)
 		return;
